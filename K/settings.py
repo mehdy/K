@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "user.apps.UserConfig",
 ]
 
@@ -79,6 +80,14 @@ DATABASES = {
         "NAME": os.getenv("K_DB_NAME", "k"),
         "TEST": {"NAME": "test"},
     }
+}
+
+
+# API
+
+REST_FRAMEWORK = {
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
+    "DEFAULT_VERSION": 1.0,
 }
 
 
