@@ -16,7 +16,7 @@ class Event(Model):
 
 class Option(Model):
     start_at = models.DateTimeField(_("start at"), blank=False, null=False)
-    finish_at = models.DateTimeField(_("start at"), blank=False, null=False)
+    finish_at = models.DateTimeField(_("finish at"), blank=False, null=False)
 
     event = models.ForeignKey(Event, related_name="options", on_delete=models.CASCADE)
     voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="votes")
