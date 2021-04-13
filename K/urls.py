@@ -19,6 +19,7 @@ from django.urls import path, include
 v1 = (
     [
         path("user/", include("user.urls")),
+        path("event/", include("event.urls")),
     ],
     "v1",
 )
