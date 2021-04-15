@@ -26,6 +26,5 @@ jobs:
       - name: Build and push the docker image
         uses: docker/build-push-action@v2
         with:
-          repository: nabardio/nabard-server
           push: true
           tags: ${{ steps.meta.outputs.tags }}
