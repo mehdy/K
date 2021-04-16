@@ -1,0 +1,664 @@
+openapi: 3.0.0
+servers:
+  - description: K API
+    url: https://k.qbox.dev/v1
+info:
+  description: A Doodle replica API to find the best time for a meeting.
+  version: "1.0.0"
+  title: K
+  contact:
+    email: mehdy.khoshnoody@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: users
+    description: User related APIs
+  - name: events
+    description: Event related APIs
+paths:
+  /user/:
+    get:
+      tags:
+        - users
+      summary: Get user profile
+      operationId: getUser
+      description: Get the current user profile data
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Missing or invalid auth token. Please login first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    post:
+      tags:
+        - users
+      summary: Register a new user
+      operationId: addUser
+      description: Register a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+        description: User to register
+      responses:
+        '201':
+          description: User registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /user/token/:
+    post:
+      tags:
+        - users
+      summary: Login user
+      operationId: loginUser
+      description: Login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserTokenInput'
+        description: User credentials to authenticate
+      responses:
+        '200':
+          description: User authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserToken'
+        '400':
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /user/token/refresh/:
+    post:
+      tags:
+        - users
+      summary: Refresh user token
+      operationId: refreshToken
+      description: Refresh user token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRefreshTokenInput'
+        description: User credentials to authenticate
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRefreshToken'
+        '400':
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /event/:
+    get:
+      tags:
+        - events
+      summary: Get list of current user's events
+      operationId: listEvent
+      description: Get list of current user's events
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Event
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    post:
+      tags:
+        - events
+      summary: Create a new event
+      operationId: addEvent
+      description: Create a new event
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+        description: Event to create
+      responses:
+        '201':
+          description: Event created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /event/{id}/:
+    get:
+      tags:
+        - events
+      summary: Get an event detail
+      operationId: getEvent
+      description: Get an event detail
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Event id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+      responses:
+        '200':
+          description: Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    put:
+      tags:
+        - events
+      summary: Update an event
+      operationId: updateEvent
+      description: Update an event
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Event id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+        description: New data to update the event
+      responses:
+        '200':
+          description: Event Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    delete:
+      tags:
+        - events
+      summary: Delete an event
+      operationId: deleteEvent
+      description: Delete an event
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Event id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+      responses:
+        '204':
+          description: Event Deleted
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /event/{id}/option/:
+    post:
+      tags:
+        - events
+      summary: Add options to an event
+      operationId: addOptions
+      description: Add options to an event
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Event id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionInput'
+        description: New options to add to event's existing options
+      responses:
+        '201':
+          description: Options created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Option'
+        '400':
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /event/option/{id}/:
+    delete:
+      tags:
+        - events
+      summary: Delete options from an event
+      operationId: deleteOption
+      description: Delete some options from an event
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Option id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+      responses:
+        '204':
+          description: Options Deleted
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /event/option/{id}/vote/:
+    post:
+      tags:
+        - events
+      summary: Add votes to some options
+      operationId: addVote
+      description: Add vote to some options to an event
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Option id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+      responses:
+        '204':
+          description: Vote created
+        '400':
+          description: Invalid input, object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event or options not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    delete:
+      tags:
+        - events
+      summary: Remove vote from option
+      operationId: deleteVotes
+      description: Delete votes from options
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Option id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+      responses:
+        '204':
+          description: Vote Deleted
+        '401':
+          description: Missing or invalid auth token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+
+components:
+  schemas:
+    UserInput:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: Mehdy Khoshnoody
+        username:
+          type: string
+          example: mehdy
+        email:
+          type: string
+          format: email
+          example: mehdy.khoshnoody@gmail.com
+        password:
+          type: string
+          format: password
+          example: "some password"
+    User:
+      allOf:
+        - $ref: '#/components/schemas/_shared'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+            name:
+              type: string
+              example: Mehdy Khoshnoody
+            username:
+              type: string
+              example: mehdy
+            email:
+              type: string
+              format: email
+              example: mehdy.khoshnoody@gmail.com
+    UserTokenInput:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: username
+          example: mehdy
+        password:
+          type: string
+          example: "some password"
+    UserToken:
+      type: object
+      properties:
+        access:
+          type: string
+          example: eyJgegj32rsgj6hk3f...
+        refresh: 
+          type: string
+          example: gF4vgd3flGrdk5g...
+    UserRefreshTokenInput:
+      type: object
+      properties:
+        refresh: 
+          type: string
+          example: gF4vgd3flGrdk5g...
+    UserRefreshToken:
+      type: object
+      properties:
+        access:
+          type: string
+          example: eyJgegj32rsgj6hk3f...
+    EventInput:
+      type: object
+      required:
+        - title
+        - timezone
+        - optional_enabled
+      properties:
+        title:
+          type: string
+          example: Some event
+        description:
+          type: string
+          example: An optional description
+        timezone:
+          type: string
+          example: Asia/Tehran
+        optional_enabled:
+          type: boolean
+          default: false
+    Event:
+      allOf:
+        - $ref: '#/components/schemas/_shared'
+        - type: object
+          properties:
+            title:
+              type: string
+              example: Some Event
+            description:
+              type: string
+              example: An optional description
+            timezone:
+              type: string
+              example: Asia/Tehran
+            optional_enabled:
+              type: boolean
+              default: false
+            owner_id:
+              type: string
+              format: uuid
+              example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/Option'
+            votes:
+              type: array
+              items:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    format: uuid
+                    example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+                  option_id:
+                    type: string
+                    format: uuid
+                    example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+    OptionInput:
+      allOf:
+        - type: object
+          properties:
+            start_at:
+              type: string
+              format: date-time
+              example: "2021-11-18T10:43:05Z"
+            finsh_at:
+              type: string
+              format: date-time
+              example: "2021-11-18T10:43:05Z"
+    Option:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+        start_at:
+          type: string
+          format: date-time
+          example: "2021-11-18T10:43:05Z"
+        finsh_at:
+          type: string
+          format: date-time
+          example: "2021-11-18T10:43:05Z"
+        event_id:
+          type: string
+          format: uuid
+          example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+
+    ErrResponse:
+      type: object
+      properties:
+        [key]:
+          type: array
+          items:
+            type: string
+            example: some error
+
+    _shared:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
+        created_at:
+          type: string
+          format: date-time
+          example: "2021-11-18T10:43:05Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2021-11-18T10:43:05Z"
+  
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
