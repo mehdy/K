@@ -10,7 +10,7 @@ info:
     email: mehdy.khoshnoody@gmail.com
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 tags:
   - name: users
     description: User related APIs
@@ -27,18 +27,18 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: User profile
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '401':
+                $ref: "#/components/schemas/User"
+        "401":
           description: Missing or invalid auth token. Please login first.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
     post:
       tags:
         - users
@@ -49,21 +49,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserInput'
+              $ref: "#/components/schemas/UserInput"
         description: User to register
       responses:
-        '201':
+        "201":
           description: User registered
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '400':
+                $ref: "#/components/schemas/User"
+        "400":
           description: Invalid input, object invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
   /user/token/:
     post:
       tags:
@@ -75,27 +75,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserTokenInput'
+              $ref: "#/components/schemas/UserTokenInput"
         description: User credentials to authenticate
       responses:
-        '200':
+        "200":
           description: User authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserToken'
-        '400':
+                $ref: "#/components/schemas/UserToken"
+        "400":
           description: Invalid input, object invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
   /user/token/refresh/:
     post:
       tags:
@@ -107,29 +107,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRefreshTokenInput'
+              $ref: "#/components/schemas/UserRefreshTokenInput"
         description: User credentials to authenticate
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: User authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserRefreshToken'
-        '400':
+                $ref: "#/components/schemas/UserRefreshToken"
+        "400":
           description: Invalid input, object invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '401':
+                $ref: "#/components/schemas/ErrResponse"
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
   /event/:
     get:
       tags:
@@ -140,7 +140,7 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: Event
           content:
             application/json:
@@ -150,19 +150,19 @@ paths:
                   events:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Event'
-        '401':
+                      $ref: "#/components/schemas/Event"
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
     post:
       tags:
         - events
@@ -175,27 +175,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventInput'
+              $ref: "#/components/schemas/EventInput"
         description: Event to create
       responses:
-        '201':
+        "201":
           description: Event created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
-        '400':
+                $ref: "#/components/schemas/Event"
+        "400":
           description: Invalid input, object invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '401':
+                $ref: "#/components/schemas/ErrResponse"
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
   /event/{id}/:
     get:
       tags:
@@ -215,24 +215,24 @@ paths:
             format: uuid
             example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
       responses:
-        '200':
+        "200":
           description: Event
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
-        '401':
+                $ref: "#/components/schemas/Event"
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
     put:
       tags:
         - events
@@ -254,33 +254,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventInput'
+              $ref: "#/components/schemas/EventInput"
         description: New data to update the event
       responses:
-        '200':
+        "200":
           description: Event Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
-        '400':
+                $ref: "#/components/schemas/Event"
+        "400":
           description: Invalid input, object invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '401':
+                $ref: "#/components/schemas/ErrResponse"
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
     delete:
       tags:
         - events
@@ -299,20 +299,20 @@ paths:
             format: uuid
             example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
       responses:
-        '204':
+        "204":
           description: Event Deleted
-        '401':
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
   /event/{id}/option/:
     post:
       tags:
@@ -335,33 +335,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OptionInput'
+              $ref: "#/components/schemas/OptionInput"
         description: New options to add to event's existing options
       responses:
-        '201':
+        "201":
           description: Options created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Option'
-        '400':
+                $ref: "#/components/schemas/Option"
+        "400":
           description: Invalid input, object invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '401':
+                $ref: "#/components/schemas/ErrResponse"
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
   /event/option/{id}/:
     delete:
       tags:
@@ -381,20 +381,20 @@ paths:
             format: uuid
             example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
       responses:
-        '204':
+        "204":
           description: Options Deleted
-        '401':
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
   /event/option/{id}/vote/:
     post:
       tags:
@@ -414,26 +414,26 @@ paths:
             format: uuid
             example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
       responses:
-        '204':
+        "204":
           description: Vote created
-        '400':
+        "400":
           description: Invalid input, object invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '401':
+                $ref: "#/components/schemas/ErrResponse"
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event or options not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
     delete:
       tags:
         - events
@@ -452,20 +452,20 @@ paths:
             format: uuid
             example: d29b9564-4a9f-491f-9fb1-5e97741d1e56
       responses:
-        '204':
+        "204":
           description: Vote Deleted
-        '401':
+        "401":
           description: Missing or invalid auth token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
-        '404':
+                $ref: "#/components/schemas/ErrResponse"
+        "404":
           description: Event not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrResponse'
+                $ref: "#/components/schemas/ErrResponse"
 
 components:
   schemas:
@@ -492,7 +492,7 @@ components:
           example: "some password"
     User:
       allOf:
-        - $ref: '#/components/schemas/_shared'
+        - $ref: "#/components/schemas/_shared"
         - type: object
           properties:
             id:
@@ -515,9 +515,8 @@ components:
         - email
         - password
       properties:
-        email:
+        username:
           type: string
-          format: username
           example: mehdy
         password:
           type: string
@@ -528,13 +527,13 @@ components:
         access:
           type: string
           example: eyJgegj32rsgj6hk3f...
-        refresh: 
+        refresh:
           type: string
           example: gF4vgd3flGrdk5g...
     UserRefreshTokenInput:
       type: object
       properties:
-        refresh: 
+        refresh:
           type: string
           example: gF4vgd3flGrdk5g...
     UserRefreshToken:
@@ -564,7 +563,7 @@ components:
           default: false
     Event:
       allOf:
-        - $ref: '#/components/schemas/_shared'
+        - $ref: "#/components/schemas/_shared"
         - type: object
           properties:
             title:
@@ -586,7 +585,7 @@ components:
             options:
               type: array
               items:
-                $ref: '#/components/schemas/Option'
+                $ref: "#/components/schemas/Option"
             votes:
               type: array
               items:
@@ -656,7 +655,7 @@ components:
           type: string
           format: date-time
           example: "2021-11-18T10:43:05Z"
-  
+
   securitySchemes:
     bearerAuth:
       type: http
